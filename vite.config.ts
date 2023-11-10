@@ -1,6 +1,8 @@
 import { defineConfig } from 'vite'
 import { crx } from '@crxjs/vite-plugin'
 import { svelte } from '@sveltejs/vite-plugin-svelte'
+import wasm from 'vite-plugin-wasm'
+import topLevelAwait from 'vite-plugin-top-level-await'
 import path from 'path'
 import sveltePreprocess from 'svelte-preprocess'
 import manifest from './src/manifest'
@@ -19,6 +21,8 @@ export default defineConfig(({ mode }) => {
       },
     },
     plugins: [
+      wasm(),
+      topLevelAwait(),
       crx({ manifest }),
       svelte({
         compilerOptions: {
