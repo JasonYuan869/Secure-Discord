@@ -23,7 +23,7 @@ export default defineManifest({
   },
   content_scripts: [
     {
-      matches: ['https://discord.com/app/*'],
+      matches: ['https://discord.com/*'],
       js: ['src/contentScript/index.ts'],
     },
   ],

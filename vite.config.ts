@@ -3,8 +3,9 @@ import { crx } from '@crxjs/vite-plugin'
 import { svelte } from '@sveltejs/vite-plugin-svelte'
 import wasm from 'vite-plugin-wasm'
 import topLevelAwait from 'vite-plugin-top-level-await'
-import path from 'path'
+import * as path from 'path'
 import sveltePreprocess from 'svelte-preprocess'
+// @ts-ignore
 import manifest from './src/manifest'
 
 export default defineConfig(({ mode }) => {

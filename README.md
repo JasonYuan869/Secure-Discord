@@ -18,8 +18,3 @@ There are no plans to support servers or group chats. This is purely for 1-on-1 
 ## Questions
 - Can I use `libsignal` directly?
   - Probably not, some of the dependencies don't compile to wasm target so it would be difficult to run in the browser
-
-  ## Questions
-  - Can I use `libsignal` directly?
-    - Probably not, some of the dependencies don't compile to wasm target
- so it would be difficult to run in the brow.
