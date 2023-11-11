@@ -1,10 +1,12 @@
 #![no_std]
 
 mod utils;
+mod errors;
 
 use utils::set_panic_hook;
 use rand_core::{RngCore, CryptoRng, Error};
 use web_sys::{Crypto};
+use crate::errors::TRY_FILL_BYTES_ERROR;
 
 pub struct WebRng(Crypto);
 
@@ -38,8 +40,7 @@ impl RngCore for WebRng {
         match self.0.get_random_values_with_u8_array(dest) {
             Ok(_) => Ok(()),
             Err(_) => {
-                let code = core::num::NonZeroU32::new(Error::CUSTOM_START + 1).unwrap();
-                Err(Error::from(code))
+                Err(Error::from(TRY_FILL_BYTES_ERROR))
             }
         }
 
