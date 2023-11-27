@@ -12,6 +12,7 @@ There are no plans to support servers or group chats. This is purely for 1-on-1 
 ## Current Progress
 - [x] Create the repository
 - [] Basic UI injection into Discord's web app ("send secure message" button, "decrypt message" button)
+  - Cannot "hijack" user inputs (typing, enter key, etc.). Will look into auto copying the encrypted text and prompting the user to paste it in the box.
 - [] Implement the double ratchet algorithm
 - [] Implement key storage
 

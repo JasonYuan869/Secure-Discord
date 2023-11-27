@@ -1,4 +1,5 @@
 import "./styles.css";
+import * as DKeyRatchet from "2key-ratchet";
 
 chrome.runtime.sendMessage({ type: 'SCRIPT', data: "content script running" });
 
