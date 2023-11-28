@@ -1,9 +1,9 @@
 import "./styles.css";
-import { queryClass, getChatName, getMessageBarButtons, getChatBoxText } from "./utils/domHelpers";
+import { queryClass, getChatName, getMessageBarButtons, getChatBoxText, getCurrentUsername } from "./utils/domHelpers";
 import SecureButton from './components/SecureButton.svelte';
 import Toasts from "./components/Toasts.svelte";
 import FloatingWindow from "./components/Tooltip.svelte";
-import { currentChat } from "./stores";
+import { currentChat, currentUser } from "./stores";
 import { get } from "svelte/store";
 
 const addToastContainer = () => {
@@ -52,6 +52,11 @@ const addSecureButton = () => {
 
 // Observer that is run whenever the chat changes
 const chatObserver = new MutationObserver(() => {
+    const username = getCurrentUsername();
+    if (username && username !== get(currentUser)) {
+        currentUser.set(username);
+    }
+
     const chatName = getChatName();
     if (chatName && chatName !== get(currentChat) && !chatName.includes(":") && chatName !== "Discord") {
         currentChat.set(chatName);

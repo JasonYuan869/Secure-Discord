@@ -2,7 +2,7 @@
     import { toasts } from "svelte-toasts";
     import { offset, shift } from "svelte-floating-ui/dom";
     import { createFloatingActions } from "svelte-floating-ui";
-    import { currentChat } from "../stores";
+    import { currentChat, currentUser } from "../stores";
     import FloatingWindow from "./Tooltip.svelte";
     import { getChatBoxText } from "../utils/domHelpers";
 
@@ -19,6 +19,7 @@
 
     const secureButtonOnClick = () => {
         console.log("clicked in chat", $currentChat);
+        console.log("logged in as", $currentUser);
         const txt = getChatBoxText();
         console.log("txt", txt);
         navigator.clipboard.writeText(txt?.trim() || "");
