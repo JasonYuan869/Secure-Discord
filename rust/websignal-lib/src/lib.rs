@@ -1,5 +1,9 @@
-use libsignal_protocol::kem::{KeyPair, KeyType};
+mod utils;
 
-fn aaa() {
-    KeyPair::generate(KeyType::Kyber1024);
+use libsignal_protocol::kem::{KeyPair, KeyType};
+use wasm_bindgen::prelude::*;
+
+#[wasm_bindgen]
+pub fn init() {
+    utils::set_panic_hook();
 }
