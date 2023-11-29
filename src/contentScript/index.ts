@@ -1,5 +1,18 @@
 import { run } from "./uiInjection";
 
-chrome.runtime.sendMessage({ type: 'SCRIPT', data: "content script running" });
+function handlePortMessage(message: Message) {
+  console.log("contentScript received message", message);
+  switch (message.type) {
+    case MessageType.INIT:
+      console.log("Received response from background script");
+      run();
+      break;
+  }
+}
 
-run();
+const port = chrome.runtime.connect({ name: "contentScript" });
+port.onMessage.addListener(handlePortMessage);
+
+export function sendMessage(message: Message) {
+  port.postMessage(message);
+}
