@@ -1,4 +1,3 @@
-import "./styles.css";
 import { queryClass, getChatName, getMessageBarButtons, getChatBoxText, getCurrentUsername } from "./utils/domHelpers";
 import SecureButton from './components/SecureButton.svelte';
 import Toasts from "./components/Toasts.svelte";

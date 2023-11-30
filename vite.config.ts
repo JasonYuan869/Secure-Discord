@@ -33,10 +33,5 @@ export default defineConfig(({ mode }) => {
         preprocess: sveltePreprocess(),
       }),
     ],
-    resolve: {
-      alias: {
-        '@': path.resolve(__dirname, 'src'),
-      },
-    },
   }
 })

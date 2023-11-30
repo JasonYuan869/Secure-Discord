@@ -1,3 +1,5 @@
+import { Message, MessageType, SecureDiscordConfig } from "../types";
+
 function handleContentScriptMessage(request: Message) {
   switch (request.type) {
     case MessageType.CONFIG:
@@ -12,7 +14,8 @@ function handleContentScriptMessage(request: Message) {
 function handleOptionsPageMessage(request: Message) {
   switch (request.type) {
     case MessageType.CONFIG:
-
+      // Configuration was updated in options page, reload
+      chrome.runtime.reload();
   }
 }
 
@@ -40,7 +43,7 @@ function checkConfiguration(port: chrome.runtime.Port) {
 console.log('Web worker is running');
 
 chrome.runtime.onConnect.addListener((port) => {
-  if (port.name === "optionsScript") {
+  if (port.name === "optionsPage") {
     port.onMessage.addListener(handleOptionsPageMessage);
     return;
   } else if (port.name !== "contentScript") {
