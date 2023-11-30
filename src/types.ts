@@ -11,7 +11,7 @@ export interface Message {
 export interface UserIdentityInfo {
   username?: string;
   userId?: number;
-  identityKeyPair?: Uint8Array;
+  identityKeyPair?: string;
 }
 export interface SecureDiscordConfig {
   enabled: boolean;

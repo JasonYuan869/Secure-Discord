@@ -1,14 +1,7 @@
-export async function bytesToBase64DataUrl(bytes: Uint8Array, type = "application/octet-stream"): Promise<string> {
-    return await new Promise((resolve, reject) => {
-        const reader = Object.assign(new FileReader(), {
-            onload: () => resolve(reader.result as string),
-            onerror: () => reject(reader.error),
-        });
-        reader.readAsDataURL(new File([bytes], "", { type }));
-    });
+export function base64ToUint8Array(base64: string) {
+    return Uint8Array.from(atob(base64), (c) => c.charCodeAt(0));
 }
 
-export async function dataUrlToBytes(dataUrl: string) {
-    const res = await fetch(dataUrl);
-    return new Uint8Array(await res.arrayBuffer());
+export function uint8ArrayToBase64(array: Uint8Array) {
+    return btoa(String.fromCharCode(...array));
 }
