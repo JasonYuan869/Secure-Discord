@@ -1,11 +1,12 @@
 import { run } from "./uiInjection";
 import { Message, MessageType } from "../types";
+import "../styles.css";
+
 function handlePortMessage(message: Message) {
   console.log("contentScript received message", message);
   switch (message.type) {
     case MessageType.INIT:
       console.log("Received response from background script");
-      import("../styles.css");
       run();
       break;
   }
