@@ -1,0 +1,5 @@
+/* Fix the Discord loading logo animation being offset to the left for some reason */
+[class*="ready_"] {
+    margin-left: auto;
+    margin-right: auto;
+}

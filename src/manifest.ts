@@ -33,5 +33,8 @@ export default defineManifest({
       matches: [],
     },
   ],
+  content_security_policy: {
+    extension_pages: "script-src 'self' 'wasm-unsafe-eval'; object-src 'self';"
+  },
   permissions: ['storage'],
 })
