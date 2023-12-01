@@ -4,37 +4,40 @@ import Toasts from "./components/Toasts.svelte";
 import FloatingWindow from "./components/Tooltip.svelte";
 import { currentChat, currentUser } from "./stores";
 import { get } from "svelte/store";
+import { MessageType } from "../types";
 
 const addToastContainer = () => {
-    // Check if the toasts injection already exists
-    const existingToastContainer = queryClass("svelte-toasts-container");
-    if (existingToastContainer) {
-        return;
-    }
+  // Check if the toasts injection already exists
+  const existingToastContainer = queryClass("svelte-toasts-container");
+  if (existingToastContainer) {
+    return;
+  }
 
-    // Add the toasts injection to the page
-    const svelteToastContainer = document.createElement("div");
-    document.body.appendChild(svelteToastContainer);
+  // Add the toasts injection to the page
+  const svelteToastContainer = document.createElement("div");
+  document.body.appendChild(svelteToastContainer);
 
-    const toastContainer = new Toasts({
-        target: svelteToastContainer,
-    });
+  const toastContainer = new Toasts({
+    target: svelteToastContainer,
+  });
 };
 
-const addSecureButton = () => {
+export function run(port: chrome.runtime.Port) {
+
+  const addSecureButton = () => {
     const messageBarButtons = getMessageBarButtons();
     if (!messageBarButtons) {
-        return;
+      return;
     }
 
     // Duplicate one of the buttons
     const svelteButton = messageBarButtons.children[2].cloneNode(true);
     if (!svelteButton) {
-        return;
+      return;
     }
     const oldButtonIcon = svelteButton.lastChild?.lastChild?.lastChild;
     if (!oldButtonIcon || !oldButtonIcon.parentElement) {
-        return;
+      return;
     }
 
     const buttonWrapper = oldButtonIcon.parentElement;
@@ -42,32 +45,31 @@ const addSecureButton = () => {
 
     // Svelte injection!
     const secureButton = new SecureButton({
-        target: buttonWrapper,
+      target: buttonWrapper,
+      props: { port }
     });
 
     // Add the button to the message bar buttons
     messageBarButtons.appendChild(svelteButton);
-};
+  };
+  addToastContainer();
 
-// Observer that is run whenever the chat changes
-const chatObserver = new MutationObserver(() => {
+  // Observer that is run whenever the chat changes
+  const chatObserver = new MutationObserver(() => {
     const username = getCurrentUsername();
     if (username && username !== get(currentUser)) {
-        currentUser.set(username);
+      currentUser.set(username);
+      port.postMessage({ type: MessageType.LOGGED_IN, data: { username } });
     }
 
     const chatName = getChatName();
     if (chatName && chatName !== get(currentChat) && !chatName.includes(":") && chatName !== "Discord") {
-        currentChat.set(chatName);
-        addSecureButton();
+      currentChat.set(chatName);
+      port.postMessage({ type: MessageType.OPEN_CHAT, data: { chatName } });
+      addSecureButton();
     }
-});
+  });
 
-
-export function run() {
-    chrome.runtime.sendMessage({ type: 'SCRIPT', data: "UI injection script running" });
-    addToastContainer();
-
-    // Start the chat observer
-    chatObserver.observe(document.body, { childList: true, subtree: true });
+  // Start the chat observer
+  chatObserver.observe(document.body, { childList: true, subtree: true });
 }

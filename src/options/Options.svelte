@@ -82,6 +82,10 @@
 
   const reload = () => {
     port?.postMessage({ type: MessageType.CONFIG });
+    toasts.success('Reloading extension');
+    setTimeout(() => {
+      window.location.reload();
+    }, 1000);
   };
 
   onMount(() => {

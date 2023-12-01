@@ -5,6 +5,10 @@
   import { currentChat, currentUser } from "../stores";
   import FloatingWindow from "./Tooltip.svelte";
   import { getChatBoxText } from "../utils/domHelpers";
+  import { MessageType } from "../../types";
+  import { onMount } from "svelte";
+
+  export let port: chrome.runtime.Port;
 
   const [floatingRef, floatingContent] = createFloatingActions({
     strategy: "fixed",
@@ -21,10 +25,17 @@
     console.log("clicked in chat", $currentChat);
     console.log("logged in as", $currentUser);
     const txt = getChatBoxText();
-    console.log("txt", txt);
-    navigator.clipboard.writeText(txt?.trim() || "");
-    toasts.success("Copied to clipboard!", { placement: "top-right", duration: 2000 });
+    port.postMessage(MessageType.ENCRYPT_MESSAGE, { text: txt });
   };
+
+  onMount(() => {
+    port.onMessage.addListener((msg) => {
+      if (msg.type === MessageType.MESSAGE_CIPHERTEXT) {
+        navigator.clipboard.writeText(msg.payload);
+        toasts.success("Copied encrypted message to clipboard");
+      }
+    });
+  });
 </script>
 
 <div>
