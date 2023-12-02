@@ -1,17 +1,25 @@
+/**
+ * Stores data in chrome.storage.sync. Since byte arrays cannot be stored directly (only JSON-serializable objects),
+ * we convert them to base64 strings before storing them.
+ */
+
+/**
+ * Converts a base64 string to a `Uint8Array`.
+ * @param {string} base64
+ * @return {Uint8Array}
+ */
 function base64ToUint8Array(base64) {
   return Uint8Array.from(atob(base64), (c) => c.charCodeAt(0));
 }
 
+/**
+ * Converts a `Uint8Array` to a base64 string.
+ * @param {Uint8Array} array
+ * @return {string}
+ */
 function uint8ArrayToBase64(array) {
   return btoa(String.fromCharCode(...array));
 }
-
-class BaseStore {
-  constructor(storeName) {
-    this.storeName = 'storeName';
-  }
-}
-
 
 // export class SessionStore {
 //
