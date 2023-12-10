@@ -11,11 +11,12 @@ There are no plans to support servers or group chats. This is purely for 1-on-1 
 
 ## Current Progress
 - [x] Create the repository
-- [] Basic UI injection into Discord's web app ("send secure message" button, "decrypt message" button)
+- [x] Basic UI injection into Discord's web app ("send secure message" button, "decrypt message" button)
   - Cannot "hijack" user inputs (typing, enter key, etc.). Will look into auto copying the encrypted text and prompting the user to paste it in the box.
-- [] Implement the double ratchet algorithm
-- [] Implement key storage
+- [x] Implement the double ratchet algorithm
+- [ ] Implement key storage
+- [ ] Add UI logic
 
 ## Questions
-- Can I use `libsignal` directly?
-  - Probably not, some of the dependencies don't compile to wasm target so it would be difficult to run in the browser
+- Where/how to publish pre-key bundles?
+  - Could look into About Me page
